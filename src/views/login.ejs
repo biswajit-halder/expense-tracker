@@ -1,0 +1,51 @@
+<div class="container-xxl" id="signup-page">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="/img/money.png" alt="" height="200" width="200">
+                        </div>
+
+                        <div class="col-8 py-4">
+                            <div class="fw-bold heading_1">Expense</div>
+                            <div class="heading_2">Tracker</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-12">
+                    <div class="row justify-content-center">
+                        <div class="col-8 border rounded p-4 bg-white">
+                            <h1>Sign in to your account</h1>
+                            <% if (error_msg) { %>
+                                <div class="alert alert-danger"
+                                    role="alert">
+                                    <span class="font-medium">Error!</span>
+                                    <%= error_msg %>
+                                </div>
+                            <% } %>
+
+                            <form class="" action="/login" method="post">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Your Email</label>
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="name@company.com" required="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" name="password" id="password" placeholder="••••••••" class="form-control" required="">
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="w-full btn btn-primary">Sign In</button>
+                                    <p class=""> Don’t have an account yet? <a href="/" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign Up</a> </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

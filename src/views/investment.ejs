@@ -1,0 +1,205 @@
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        
+        <%- include('./includes/sidebar.ejs') %>
+
+        <div class="col">
+            <!-- <div class="container-fluid"> -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4 border-bottom py-2">
+                    <h1 class="h3 mb-0 text-gray-800 fw-bolder">Investments</h1>
+                </div>
+
+                <div class="d-sm-flex align-items-center mb-4 py-2">
+                    <h5 class="mb-0">Summary</h5>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-header bg-white">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs text-secondary mb-1 text-uppercase">
+                                            Total Investments
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 fw-bold text-gray-800"><%-numberOfInvestments%></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-header bg-white">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs text-secondary mb-1 text-uppercase">
+                                            total amount
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 fw-bold text-gray-800">₹ <%-totalInvestments%></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Row -->
+
+                <div class="row">
+
+                    <div class="col-xl-12">
+                        <table class="table table-hover border">
+                            <thead class="bg-light fw-bold">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Units</td>
+                                    <td>Single Stock Price</td>
+                                    <td>Total Amount</td>
+                                    <td>Bought Date</td>
+                                    <td>Category</td>
+                                    <td>Notes</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% investments.forEach(item => { %>
+                                <tr>
+                                    <td><%-item.name%></td>
+                                    <td><%-item.units%></td>
+                                    <td><%-item.unit_price%></td>
+                                    <td>₹ <%-item.unit_price * item.units%></td>
+                                    <td><%-item.formattedDate%></td>
+                                    <td><%-item.category%></td>
+                                    <td><%-item.notes%></td>
+                                    <td>
+                                        <a href="#" class="text-dark" onclick="editInvestmentModal('<%= item._id %>')"><i class="fa-solid fa-pencil"></i></a> 
+                                        <a href="#" class="text-dark" onclick="deleteInvestmentModal('<%= item._id %>')"><i class="fa-solid fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="position-relative"><a type="button" href="#" id="addInvestmentModalBtn" data-bs-toggle="modal" data-bs-target="#addInvestmentModal" style="margin: 0 30px 30px 0;" class="position-fixed position-absolute bottom-0 end-0 mr-5"><i class="fas fa-plus-circle fa-3x"></i></a></div>
+                </div>
+
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addInvestmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addInvestmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addInvestmentModalLabel">Add Investment</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/add-investment" method="post" id="mod-investment-form">
+        <div class="modal-body">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Name" required="" value="" autocomplete="off"/>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="unit_price" class="form-label">Single Stock Price (₹)</label>
+                        <input class="form-control" name="unit_price" id="unit_price" placeholder="199" required="" min="0" inputmode="decimal" step="any" type="number" value="">
+                    </div>
+                    <div class="col-6">
+                        <label for="units" class="form-label">Units</label>
+                        <input class="form-control" name="units" id="units" placeholder="10" required="" min="0" inputmode="decimal" step="any" type="number" value="">
+                    </div>
+                    
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="date" class="form-label">Bought Date</label>
+                        <input class="form-control" name="date" id="date" required="" type="date" value="<%- currentdate %>" max="<%- currentdate %>">
+                    </div>
+                    <div class="col-6">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" name="category" id="category" required>
+                            <option value="">Select</option>
+                            <% categories.forEach(item => { %>
+                                <option value="<%= item %>"><%= item %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class=" mb-3">
+                    <label for="notes" class="form-label">Notes (optional)</label>
+                    <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" name="redirect" value="/investment">
+            <button type="submit" class="btn btn-secondary bg-dark w-100" id="modInvestmentbtn">Submit</button>
+        </div>
+        </form>
+      </div>
+    </div>
+</div>
+<script>
+const editInvestmentModal = (investmentid) => {
+    fetch('/api/getinvestment/' + investmentid)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json(); // parse JSON data from the response
+        })
+        .then((data) => {
+            if (data && data.check && data.check === 'success') {
+                const investment = data.investment;
+                
+                document.querySelector('#mod-investment-form input#name').value = investment.name;
+                document.querySelector('#mod-investment-form input#unit_price').value = investment.unit_price;
+                document.querySelector('#mod-investment-form input#units').value = investment.units;
+                document.querySelector('#mod-investment-form input#date').value = formatDateToYYYYMMDD(investment.date);
+                document.querySelector('#mod-investment-form select#category').value = investment.category;
+                document.querySelector('#mod-investment-form textarea#notes').value = investment.notes;
+
+                document.getElementById('addInvestmentModalLabel').innerHTML = 'Edit Investment';
+
+                document.getElementById('modInvestmentbtn').innerHTML = 'Update';
+                document.getElementById('mod-investment-form').action = '/edit-investment/' + investment._id;
+
+                document.getElementById('addInvestmentModalBtn').click();
+            }
+        })
+        .catch((error) => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
+const deleteInvestmentModal = (investmentid) => {
+    fetch('/api/delete-investment/' + investmentid)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json(); // parse JSON data from the response
+        })
+        .then((data) => {
+            if (data && data.check && data.check === 'success') {
+                window.location.reload();
+            }
+        })
+        .catch((error) => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
+</script>

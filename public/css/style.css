@@ -1,0 +1,22 @@
+body {
+    font-family: 'Nunito', sans-serif !important;
+}
+.container-xxl { max-width: 1530px; }
+
+#signup-page {
+    margin-top: 12rem;
+}
+@media (min-width: 576px) {
+    .me-sm-5 {
+        margin-right: 3rem !important;
+    }
+}
+.heading_1 {
+    font-size: 4rem;
+}
+.heading_2 {
+    font-size: 3rem;
+}
+ul#menu > li.nav-item.active > a.nav-link {
+    background-color: rgb(39, 39, 42);
+}

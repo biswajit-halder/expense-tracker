@@ -1,0 +1,237 @@
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        
+        <%- include('./includes/sidebar.ejs') %>
+
+        <div class="col">
+            <!-- <div class="container-fluid"> -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-1 border-bottom py-2">
+                    <h1 class="h3 mb-0 text-gray-800 fw-bolder">Dashboard</h1>
+                    <div class="text-end">
+                        <select name="filter" id="filter" class="form-select">
+                            <option value="today" <% if (query && query.filter && query.filter == 'today') { %> selected <% } %>>Today</option>
+                            <option value="last_7_days" <% if (query && query.filter && query.filter == 'last_7_days') { %> selected <% } %>>Last 7 days</option>
+                            <option value="last_30_days" <% if ((query && query.filter && query.filter == 'last_30_days') || !query.filter) { %> selected <% } %>>Last 30 days</option>
+                            <option value="month_to_date" <% if (query && query.filter && query.filter == 'month_to_date') { %> selected <% } %>>Month to Date</option>
+                            <option value="year_to_date" <% if (query && query.filter && query.filter == 'year_to_date') { %> selected <% } %>>Year to Date</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-sm-flex align-items-center mb-4 py-2">
+                    <h5 class="mb-0">Summary</h5>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-header bg-white">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs text-secondary mb-1 text-uppercase">
+                                            Total Income
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-suitcase"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 fw-bold text-gray-800">₹<%-totalIncome%></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-header bg-white">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs text-secondary mb-1 text-uppercase">
+                                            available balance
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-wallet"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 fw-bold text-gray-800">₹<%-availableBalance%></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-header bg-white">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs text-secondary mb-1 text-uppercase">
+                                            total spent
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-money-bill"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 fw-bold text-gray-800">₹<%-totalExpense%></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-header bg-white">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs text-secondary mb-1 text-uppercase">
+                                            total investment
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-piggy-bank"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 fw-bold text-gray-800">₹<%-totalinvestment%></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="row">
+                    <div class="col-xl-8 col-lg-8">
+                        <div class="card shadow mb-4 rounded p-4">
+                            <div class="border-bottom">
+                                <h3>Expenses</h3>
+                                <p class="">Amount spent for the selected date range.</p>
+                            </div>
+                            <canvas id="expensechart"></canvas>
+                            
+                        </div>
+                    </div>
+
+                    <div class="position-relative"><a type="button" href="#" data-bs-toggle="modal" data-bs-target="#addExpenseModal" style="margin: 0 30px 30px 0;" class="position-fixed position-absolute bottom-0 end-0 mr-5"><i class="fas fa-plus-circle fa-3x"></i></a></div>
+                </div>
+
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addExpenseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addExpenseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addExpenseModalLabel">Add Expense</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/add-expense" method="post">
+        <div class="modal-body">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="name" name="name" id="name" class="form-control" placeholder="Swiggy - Biriyani" required="" value="" autocomplete="off"/>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="price" class="form-label">Price (₹)</label>
+                        <input class="form-control" name="price" id="price" placeholder="199" required="" min="0" inputmode="decimal" step="any" type="number" value="">
+                    </div>
+                    <div class="col-6">
+                        <label for="date" class="form-label">Spent Date</label>
+                        <input class="form-control" name="date" id="date" required="" type="date" value="<%- currentdate %>" max="<%- currentdate %>">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-control" name="category" id="category" required>
+                            <% Object.keys(categories).forEach(type => { %>
+                                <optgroup label="<%= type %>">
+                                    <% categories[type].forEach(item => { %>
+                                        <option value="<%= item %>"><%= item %></option>
+                                    <% }) %>
+                                </optgroup>
+                            <% }) %>
+                        </select>
+                          
+                    </div>
+                    <div class="col-6">
+                        <label for="paid_via" class="form-label">Paid Via</label>
+                        <select class="form-control" name="paid_via" id="paid_via" required="">
+                            <% paymentmethods.forEach(item => { %>
+                                <option value="<%= item %>"><%= item %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class=" mb-3">
+                    <label for="notes" class="form-label">Notes (optional)</label>
+                    <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" name="redirect" value="/dashboard">
+            <button type="submit" class="btn btn-secondary bg-dark w-100">Submit</button>
+        </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+<script src="/js/chart.umd.js"></script>
+<script>
+    const chartconfig = <%- chartconfig %>;
+    
+    window.onload = function() {
+        if (chartconfig.data.datasets.length > 0) {
+            new Chart(
+                document.getElementById('expensechart'),
+                chartconfig
+            );
+        } else {
+            const canvas = document.getElementById('expensechart');
+
+            const noDataMessage = document.createElement('div');
+            noDataMessage.id = 'noDataMessage';
+            noDataMessage.className = 'p-4 pt-0 mt-4';
+            noDataMessage.innerHTML = '<p class="flex h-80 items-center justify-center text-sm">No data</p>';
+
+            canvas.parentNode.appendChild(noDataMessage);
+
+            noDataMessage.style.position = 'relative';
+            noDataMessage.style.bottom = '18rem';
+            noDataMessage.style.left = '30rem';
+        }
+        
+
+        filterexpense = () => {
+            var filterselect = document.getElementById("filter");
+            filterval = filterselect.value;
+            window.location.href = "/dashboard/?filter="+filterval;
+        }
+
+        document.getElementById("filter").addEventListener("change", filterexpense);
+    }
+</script>
